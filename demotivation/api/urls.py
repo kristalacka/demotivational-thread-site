@@ -5,5 +5,7 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r'posts', PostViewSet)
+router.register(r'comments', CommentViewSet)
+# TODO create nested router
 
 urlpatterns = [path('', include(router.urls))]

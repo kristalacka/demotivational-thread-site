@@ -4,7 +4,7 @@ from django.conf import settings
 
 
 def post_name(instance, filename):
-    return f'{settings.MEDIA_ROOT}/posts/{instance.id}_{filename}'
+    return f'{settings.MEDIA_ROOT}/posts/{instance.id}/base.png'
 
 
 class Post(models.Model):
