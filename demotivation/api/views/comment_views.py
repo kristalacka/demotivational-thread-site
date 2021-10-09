@@ -18,7 +18,9 @@ class CommentViewSet(viewsets.ModelViewSet):
         comment = serializer.save()
 
         service = ImageSerivce()
-        service.generate_comment_image(comment)
+        generated_image = service.generate_comment_image(comment)
+        comment.generated_image = generated_image
+        comment.save()
 
         result = {
             'generated_image':
@@ -30,13 +32,3 @@ class CommentViewSet(viewsets.ModelViewSet):
         return Response(result,
                         status=status.HTTP_201_CREATED,
                         headers=headers)
-
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance)
-        result = {
-            'generated_image':
-            f"posts/{instance.post.id}/comment_{instance.id}.png"
-        }
-        result.update(serializer.data)
-        return Response(result)

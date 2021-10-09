@@ -1,6 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from api.models import Post
+from django.conf import settings
+
+
+def generated_name(instance, filename):
+    return f'{settings.MEDIA_ROOT}/posts/{instance.post.id}/comment_{instance.id}.png'
 
 
 class Comment(models.Model):
@@ -17,3 +22,6 @@ class Comment(models.Model):
                                on_delete=models.CASCADE)
     primary_text = models.CharField(max_length=100)
     bottom_text = models.CharField(max_length=200)
+    generated_image = models.ImageField(upload_to=generated_name,
+                                        blank=True,
+                                        null=True)

@@ -22,7 +22,9 @@ class PostViewSet(viewsets.ModelViewSet):
         post.save()
 
         service = ImageSerivce()
-        service.generate_post_image(post)
+        generated_image = service.generate_post_image(post)
+        post.generated_image = generated_image
+        post.save()
 
         headers = self.get_success_headers(serializer.data)
 
@@ -32,16 +34,6 @@ class PostViewSet(viewsets.ModelViewSet):
                         status=status.HTTP_201_CREATED,
                         headers=headers)
 
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance)
-        print(static(f"posts/{instance.id}/generated.png"))
-        # result = {'generated_image': 'missing'}
-        result = {}
-        result.update(serializer.data)
-        return Response(result)
-
-    # TODO override delete to remove images
+    # TODO override delete to remove images?
     # regenerate on update
     # Create auth
-    # save generated image urls in model (refactor), add url field for generated images
